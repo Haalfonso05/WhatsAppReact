@@ -6,11 +6,16 @@ export function cn(...inputs) {
 }
 
 export function formatCurrency(amount) {
-  return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(amount)
+  return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(amount)
 }
 
 export function formatDate(date) {
-  return new Intl.DateTimeFormat('es-MX', { dateStyle: 'medium' }).format(new Date(date))
+  if (!date) return '—'
+  try {
+    return new Intl.DateTimeFormat('es-CO', { dateStyle: 'medium' }).format(new Date(date))
+  } catch {
+    return date
+  }
 }
 
 export function today() {
