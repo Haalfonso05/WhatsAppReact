@@ -20,10 +20,10 @@ const STATUS_COLORS = {
   'Listo':     { dot: 'bg-emerald-500', line: 'bg-emerald-400', text: 'text-emerald-600' },
 }
 
-// Persisted checklist state (survives re-renders within session)
+
 const checkedByOrder = {}
 
-// ── Stepper ───────────────────────────────────────────────────────────────────
+
 
 function OrderStepper({ dbStatus, onAdvance }) {
   const display = DB_TO_DISPLAY[dbStatus] || 'En espera'
@@ -58,7 +58,7 @@ function OrderStepper({ dbStatus, onAdvance }) {
   )
 }
 
-// ── Order Detail Dialog ───────────────────────────────────────────────────────
+
 
 function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) {
   const [details, setDetails] = useState([])
@@ -73,12 +73,12 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
     setLoading(true)
     Promise.all([
       api.getOrderDetails(order.id_order),
-      fetch('http://127.0.0.1:8000/products/all').then(r => r.json()),
+      fetch('https://whatsappbackend-production-b7ef.up.railway.app/products/all').then(r => r.json()),
     ]).then(([dets, inv]) => {
       const detList = Array.isArray(dets) ? dets : []
       setDetails(detList)
       setInventory(Array.isArray(inv) ? inv : [])
-      // Para pedidos Enviado o Listo: marcar todos los productos automáticamente
+      
       if (display === 'Enviado' || display === 'Listo') {
         const allChecked = {}
         detList.forEach((_, i) => { allChecked[i] = true })
@@ -122,7 +122,7 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
         className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-7 relative"
         onClick={e => e.stopPropagation()}
       >
-        {/* Header */}
+        
         <div className="flex items-start justify-between mb-5">
           <div>
             <p className="text-lg font-bold text-slate-900">{order.client_name}</p>
@@ -138,7 +138,7 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
 
         <hr className="border-slate-100 mb-4" />
 
-        {/* Products list */}
+        
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-semibold text-slate-500">Productos</p>
           {!loading && details.length > 0 && (
@@ -173,8 +173,8 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
                     hasStock && isInteractive ? 'hover:bg-slate-50 cursor-pointer' : 'cursor-default'
                   }`}
                 >
-                  {/* Checkbox */}
-                  <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                  
+                  <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-colors ${
                     !hasStock
                       ? 'bg-red-50 border-red-400'
                       : isChecked
@@ -188,7 +188,7 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
                         : null}
                   </div>
 
-                  {/* Name + stock warning */}
+                  
                   <div className="flex-1 min-w-0">
                     <p className={`text-sm transition-colors ${isChecked ? 'line-through text-slate-400' : 'text-slate-700'}`}>{name}</p>
                     {!hasStock && (
@@ -198,8 +198,8 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
                     )}
                   </div>
 
-                  <span className="text-xs text-slate-500 flex-shrink-0">x{amount}</span>
-                  <span className={`text-sm font-semibold flex-shrink-0 ${isChecked ? 'text-slate-400' : 'text-slate-800'}`}>
+                  <span className="text-xs text-slate-500 shrink-0">x{amount}</span>
+                  <span className={`text-sm font-semibold shrink-0 ${isChecked ? 'text-slate-400' : 'text-slate-800'}`}>
                     {formatCurrency(subtotal)}
                   </span>
                 </button>
@@ -210,7 +210,7 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
 
         <hr className="border-slate-100 mb-4" />
 
-        {/* Total */}
+        
         <div className="flex items-center justify-between mb-1">
           <span className="text-sm font-semibold text-slate-600">Total</span>
           <span className="text-base font-bold text-slate-900">{formatCurrency(order.total)}</span>
@@ -220,7 +220,7 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
           <p className="text-xs text-slate-400 italic mb-4">"{order.observation}"</p>
         )}
 
-        {/* Actions */}
+        
         {display === 'En espera' && details.length > 0 && (
           <div className="mt-4">
             <Button className="w-full" disabled={!allChecked} onClick={() => handleMarkAs('Enviado')}>
@@ -240,13 +240,13 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
   )
 }
 
-// ── Tarjeta de pedido ─────────────────────────────────────────────────────────
+
 
 function OrderCard({ order, onAdvance, onCancel, onClick }) {
   const display = DB_TO_DISPLAY[order.delivery_status] || 'En espera'
 
   function handleCardClick(e) {
-    // Si el clic viene del stepper o del botón cancelar, no abrir el detalle
+    
     if (e.target.closest('[data-no-dialog]')) return
     onClick()
   }
@@ -265,7 +265,7 @@ function OrderCard({ order, onAdvance, onCancel, onClick }) {
         <p><span className="text-slate-400">Total:</span> <span className="font-medium text-slate-800">{formatCurrency(order.total)}</span></p>
         {order.observation && <p className="text-slate-400 text-xs italic">"{order.observation}"</p>}
       </div>
-      {/* data-no-dialog: cualquier clic aquí no abre el detalle */}
+      
       <div data-no-dialog className="flex items-center gap-2 pt-1 mt-auto border-t border-slate-100">
         <div className="flex-1">
           <OrderStepper dbStatus={order.delivery_status} onAdvance={onAdvance} />
@@ -280,7 +280,7 @@ function OrderCard({ order, onAdvance, onCancel, onClick }) {
   )
 }
 
-// ── Modal nuevo pedido ────────────────────────────────────────────────────────
+
 
 function NewOrderModal({ open, onClose, onCreated }) {
   const [selectedClient, setSelectedClient] = useState(null)

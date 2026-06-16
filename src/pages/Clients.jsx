@@ -112,7 +112,7 @@ export default function Clients() {
   async function deleteDebt(debtId) {
     if (!confirm('¿Eliminar esta deuda?')) return
     try {
-      await fetch(`http://127.0.0.1:8000/credits/${debtId}`, { method: 'DELETE' })
+      await fetch(`https://whatsappbackend-production-b7ef.up.railway.app/credits/${debtId}`, { method: 'DELETE' })
       debts.reload()
     } catch (e) { console.error(e) }
   }
@@ -137,7 +137,6 @@ export default function Clients() {
         </div>
       </div>
 
-      {/* Tabs */}
       <div className="flex gap-1 p-1 bg-slate-100 rounded-xl w-fit mb-6">
         {[['clients', `Clientes (${clients.total})`], ['debts', `Deudas (${debts.total})`]].map(([key, label]) => (
           <button key={key} onClick={() => setTab(key)}
@@ -147,7 +146,6 @@ export default function Clients() {
         ))}
       </div>
 
-      {/* Buscador live */}
       {tab === 'clients' && (
         <div className="mb-5 max-w-sm">
           <div className="relative">
@@ -182,7 +180,7 @@ export default function Clients() {
                 return (
                   <TextureCard key={client.document}>
                     <div className="flex items-start gap-3 mb-2">
-                      <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold text-sm flex-shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold text-sm shrink-0">
                         {client.name_1?.[0]?.toUpperCase()}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -194,7 +192,7 @@ export default function Clients() {
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); openEdit(client) }}
-                        className="p-1.5 rounded-lg text-slate-300 hover:text-indigo-600 hover:bg-indigo-50 transition-colors flex-shrink-0"
+                        className="p-1.5 rounded-lg text-slate-300 hover:text-indigo-600 hover:bg-indigo-50 transition-colors shrink-0"
                       >
                         <Pencil size={14} />
                       </button>

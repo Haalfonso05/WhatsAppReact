@@ -1,27 +1,45 @@
 import { createContext, useContext, useState } from 'react'
 import { authStorage } from '../lib/storage'
 
+const BASE = 'https://whatsappbackend-production-b7ef.up.railway.app'
+
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => authStorage.getCurrentUser())
 
-  function register({ name, email, password }) {
-    if (authStorage.emailExists(email)) return { error: 'El correo ya está registrado' }
-    const newUser = { id: crypto.randomUUID(), name, email, password }
-    authStorage.saveUser(newUser)
-    authStorage.setCurrentUser({ id: newUser.id, name, email })
-    setUser({ id: newUser.id, name, email })
-    return { success: true }
+  async function register({ name, email, password }) {
+    try {
+      const res = await fetch(`${BASE}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      })
+      const data = await res.json()
+      if (!res.ok) return { error: data.detail || 'Error al registrar' }
+      authStorage.setCurrentUser(data)
+      setUser(data)
+      return { success: true }
+    } catch {
+      return { error: 'No se pudo conectar con el servidor' }
+    }
   }
 
-  function login({ email, password }) {
-    const found = authStorage.findUser(email, password)
-    if (!found) return { error: 'Credenciales incorrectas' }
-    const session = { id: found.id, name: found.name, email: found.email }
-    authStorage.setCurrentUser(session)
-    setUser(session)
-    return { success: true }
+  async function login({ email, password }) {
+    try {
+      const res = await fetch(`${BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+      const data = await res.json()
+      if (!res.ok) return { error: data.detail || 'Credenciales incorrectas' }
+      authStorage.setCurrentUser(data)
+      setUser(data)
+      return { success: true }
+    } catch {
+      return { error: 'No se pudo conectar con el servidor' }
+    }
   }
 
   function logout() {

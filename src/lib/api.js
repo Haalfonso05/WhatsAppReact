@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:8000'
+const BASE_URL = 'https://whatsappbackend-production-b7ef.up.railway.app'
 
 async function request(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, {
@@ -12,10 +12,9 @@ async function request(path, options = {}) {
   return res.json()
 }
 
-// ── Productos ─────────────────────────────────────────────────────────────────
 
 export const api = {
-  // Productos
+
   getProducts: ({ page = 1, size = 25, search = '' } = {}) =>
     request(`/products/?page=${page}&size=${size}&search=${encodeURIComponent(search)}`),
 
@@ -34,7 +33,7 @@ export const api = {
 
   getProductTypes: () => request('/products/types'),
 
-  // Clientes
+  
   getClients: ({ page = 1, size = 25, search = '' } = {}) =>
     request(`/customers/?page=${page}&size=${size}&search=${encodeURIComponent(search)}`),
 
@@ -47,7 +46,7 @@ export const api = {
 
   deleteClient: (document) => request(`/customers/${document}`, { method: 'DELETE' }),
 
-  // Pedidos
+  
   getOrders: ({ page = 1, size = 20, search = '', status = '' } = {}) =>
     request(`/orders/?page=${page}&size=${size}&search=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}`),
 
@@ -63,7 +62,7 @@ export const api = {
 
   deleteOrder: (id) => request(`/orders/${id}`, { method: 'DELETE' }),
 
-  // Créditos / Deudas
+  
   getDebts: ({ page = 1, size = 20 } = {}) =>
     request(`/credits/?page=${page}&size=${size}`),
 

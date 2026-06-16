@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import { TrendingUp, DollarSign, AlertTriangle, Package } from 'lucide-react'
-import { useApp } from '../context/AppContext'
 import { useAuth } from '../context/AuthContext'
 import { AnimatedNumber } from '../components/cult/AnimatedNumber'
 import { GradientHeading } from '../components/cult/GradientHeading'
 import { TextureCard } from '../components/cult/TextureCard'
 import { Badge } from '../components/ui/Badge'
-import { today, currentMonth, formatCurrency } from '../lib/utils'
+import { formatCurrency } from '../lib/utils'
 import { api } from '../lib/api'
 
 function MetricCard({ label, value, icon: Icon, color, formatFn }) {
@@ -28,25 +27,46 @@ function MetricCard({ label, value, icon: Icon, color, formatFn }) {
 }
 
 export default function Dashboard() {
-  const { sales } = useApp()
   const { user } = useAuth()
   const [inventory, setInventory] = useState([])
+  const [todaySales, setTodaySales] = useState(0)
+  const [monthSales, setMonthSales] = useState(0)
+  const [loadingSales, setLoadingSales] = useState(true)
 
+  
   useEffect(() => {
     api.getAllProducts().then(setInventory).catch(() => {})
   }, [])
 
-  const todaySales = sales
-    .filter((s) => s.date.startsWith(today()))
-    .reduce((sum, s) => sum + s.amount, 0)
+  
+  useEffect(() => {
+    setLoadingSales(true)
+    api.getOrders({ size: 200, status: 'Listo' })
+      .then((res) => {
+        const now = new Date()
+        const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+        const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
 
-  const monthSales = sales
-    .filter((s) => s.date.startsWith(currentMonth()))
-    .reduce((sum, s) => sum + s.amount, 0)
+        let todayTotal = 0
+        let monthTotal = 0
 
-  // Usar el threshold de cada producto igual que Flutter (isLowStock: stock <= threshold)
+        for (const order of res.items) {
+          const date = order.application_date || ''
+          const total = Number(order.total || 0)
+          if (date.startsWith(today)) todayTotal += total
+          if (date.startsWith(month)) monthTotal += total
+        }
+
+        setTodaySales(todayTotal)
+        setMonthSales(monthTotal)
+      })
+      .catch(() => {})
+      .finally(() => setLoadingSales(false))
+  }, [])
+
+ 
   const lowStock = inventory.filter(
-    (p) => p.current_stock <= (p.threshold ?? 5)
+    (p) => Number(p.current_stock) <= (p.threshold ?? 5)
   )
 
   return (
@@ -58,20 +78,21 @@ export default function Dashboard() {
         <p className="text-slate-500 text-sm">Bienvenido de vuelta, {user?.name}</p>
       </div>
 
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
         <MetricCard
           label="Ventas del día"
-          value={todaySales}
+          value={loadingSales ? 0 : todaySales}
           icon={DollarSign}
           color="bg-emerald-50 text-emerald-600"
-          formatFn={(v) => formatCurrency(v)}
+          formatFn={(v) => loadingSales ? '...' : formatCurrency(v)}
         />
         <MetricCard
           label="Ventas del mes"
-          value={monthSales}
+          value={loadingSales ? 0 : monthSales}
           icon={TrendingUp}
           color="bg-indigo-50 text-indigo-600"
-          formatFn={(v) => formatCurrency(v)}
+          formatFn={(v) => loadingSales ? '...' : formatCurrency(v)}
         />
         <MetricCard
           label="Productos con stock bajo"
@@ -82,6 +103,7 @@ export default function Dashboard() {
         />
       </div>
 
+      
       <div>
         <div className="flex items-center gap-2 mb-4">
           <AlertTriangle size={18} className="text-amber-500" />
