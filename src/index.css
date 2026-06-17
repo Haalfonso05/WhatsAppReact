@@ -16,12 +16,11 @@ body {
   min-height: 100svh;
 }
 
-/* Accesibilidad: modo alto contraste (inversion de color) */
 html.a11y-contrast {
   filter: invert(1) hue-rotate(180deg);
   background: #ffffff;
 }
-/* Se re-invierten imagenes, videos y el propio widget para que se vean normales */
+
 html.a11y-contrast img,
 html.a11y-contrast video,
 html.a11y-contrast [data-a11y-keep] {

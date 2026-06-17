@@ -11,7 +11,6 @@ export function AccessibilityButton() {
   const { contrast, setContrast, fontScale, incFont, decFont, reset, MIN, MAX } = useAccessibility()
 
   return (
-    // data-a11y-keep evita que el propio widget se invierta en modo alto contraste
     <div data-a11y-keep style={{ position: 'fixed', right: 16, bottom: 16, zIndex: 9999 }}>
       {open && (
         <div

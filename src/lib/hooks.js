@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from './api'
 
-// ── Hook genérico de paginación ───────────────────────────────────────────────
+
 
 function usePaged(fetcher, deps = []) {
   const [items, setItems] = useState([])
@@ -23,7 +23,7 @@ function usePaged(fetcher, deps = []) {
     } finally {
       setLoading(false)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+ 
   }, deps)
 
   useEffect(() => { fetch(1) }, [fetch])
@@ -34,35 +34,35 @@ function usePaged(fetcher, deps = []) {
   return { items, page, totalPages, total, loading, reload, goToPage }
 }
 
-// ── Productos ─────────────────────────────────────────────────────────────────
+
 
 export function useProducts({ search = '' } = {}) {
   const paged = usePaged((p) => api.getProducts({ page: p, search }), [search])
   return paged
 }
 
-// ── Clientes ──────────────────────────────────────────────────────────────────
+
 
 export function useClients({ search = '' } = {}) {
   const paged = usePaged((p) => api.getClients({ page: p, search }), [search])
   return paged
 }
 
-// ── Pedidos ───────────────────────────────────────────────────────────────────
+
 
 export function useOrders({ search = '', status = '' } = {}) {
   const paged = usePaged((p) => api.getOrders({ page: p, search, status }), [search, status])
   return paged
 }
 
-// ── Deudas ────────────────────────────────────────────────────────────────────
+
 
 export function useDebts() {
   const paged = usePaged((p) => api.getDebts({ page: p }), [])
   return paged
 }
 
-// ── Búsqueda typeahead ────────────────────────────────────────────────────────
+
 
 export function useSearch(fetcher) {
   const [results, setResults] = useState([])

@@ -410,7 +410,7 @@ function NewOrderModal({ open, onClose, onCreated }) {
   )
 }
 
-// ── Página ────────────────────────────────────────────────────────────────────
+
 
 export default function Orders() {
   const [statusFilter, setStatusFilter] = useState('')
@@ -421,7 +421,7 @@ export default function Orders() {
   async function handleAdvance(orderId, nextStatus) {
     try {
       await api.updateOrderStatus(orderId, nextStatus)
-      // El backend ya decrementa stock cuando status = 'Listo' (D)
+      
       reload()
     } catch (e) {
       console.error('Error actualizando estado:', e)
