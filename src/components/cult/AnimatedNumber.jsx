@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
+// funcion AnimatedNumber
 export function AnimatedNumber({ value, duration = 600, formatFn = (v) => Math.round(v).toLocaleString('es-MX') }) {
   const ref = useRef(null)
   const [display, setDisplay] = useState(value)
@@ -14,6 +15,7 @@ export function AnimatedNumber({ value, duration = 600, formatFn = (v) => Math.r
     const startTime = performance.now()
     let frame
 
+    // funcion tick
     function tick(now) {
       const progress = Math.min((now - startTime) / duration, 1)
       const ease = 1 - Math.pow(1 - progress, 3)

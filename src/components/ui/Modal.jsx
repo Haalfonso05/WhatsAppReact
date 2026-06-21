@@ -1,11 +1,14 @@
+// Ventana modal reutilizable
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import { cn } from '../../lib/utils'
 
+// funcion Modal
 export function Modal({ open, onClose, title, children, className }) {
   useEffect(() => {
     if (!open) return
+    // funcion handler
     const handler = (e) => { if (e.key === 'Escape') onClose() }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)

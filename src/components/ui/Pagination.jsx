@@ -1,5 +1,7 @@
+// Control de paginacion reutilizable
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 
+// funcion Pagination
 export function Pagination({ page, totalPages, loading, onPage }) {
   if (totalPages <= 1) return null
 

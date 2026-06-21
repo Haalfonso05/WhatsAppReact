@@ -1,5 +1,7 @@
+// Campo de texto reutilizable
 import { cn } from '../../lib/utils'
 
+// funcion Input
 export function Input({ className, label, error, ...props }) {
   return (
     <div className="flex flex-col gap-1.5">

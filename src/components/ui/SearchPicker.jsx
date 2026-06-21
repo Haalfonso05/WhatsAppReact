@@ -1,6 +1,8 @@
+// Buscador con sugerencias en tiempo real
 import { useState, useRef, useEffect } from 'react'
 import { Search, X, Loader2 } from 'lucide-react'
 
+// funcion SearchPicker
 export function SearchPicker({
   label,
   selected,
@@ -20,6 +22,7 @@ export function SearchPicker({
   const containerRef = useRef(null)
 
   useEffect(() => {
+    // funcion handleClick
     function handleClick(e) {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
         setTimeout(() => setOpen(false), 150)
@@ -44,6 +47,7 @@ export function SearchPicker({
     }, 300)
   }
 
+  // funcion handleSelect
   function handleSelect(item) {
     setQuery('')
     setResults([])

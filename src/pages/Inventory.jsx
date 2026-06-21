@@ -1,3 +1,4 @@
+// Pantalla de inventario
 import { useState, useEffect } from 'react'
 import { Plus, Pencil, Trash2, Package, Search, Loader2 } from 'lucide-react'
 import { GradientHeading } from '../components/cult/GradientHeading'
@@ -13,6 +14,7 @@ import { useProducts } from '../lib/hooks'
 
 const EMPTY_FORM = { name: '', current_stock: '', reference_price: '', product_type_id: '', threshold: '5', available: 'Y' }
 
+// funcion Inventory
 export default function Inventory() {
   const [search, setSearch] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
@@ -28,7 +30,9 @@ export default function Inventory() {
     api.getProductTypes().then(setProductTypes).catch(() => {})
   }, [])
 
+  // funcion openAdd
   function openAdd() { setEditing(null); setForm(EMPTY_FORM); setModalOpen(true) }
+  // funcion openEdit
   function openEdit(item) {
     setEditing(item)
     setForm({

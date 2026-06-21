@@ -1,3 +1,4 @@
+// Pantalla de clientes y deudas
 import { useState, useCallback } from 'react'
 import { Plus, Users, Search, CheckCircle, Circle, DollarSign, Loader2, Pencil, Trash2 } from 'lucide-react'
 import { GradientHeading } from '../components/cult/GradientHeading'
@@ -13,6 +14,7 @@ import { useClients, useDebts } from '../lib/hooks'
 
 const EMPTY_CLIENT = { name_1: '', name_2: '', last_name_1: '', last_name_2: '', document: '', phone_number: '', address: '' }
 
+// funcion Clients
 export default function Clients() {
   const [tab, setTab] = useState('clients')
   const [search, setSearch] = useState('')
@@ -38,6 +40,7 @@ export default function Clients() {
     .filter(d => d.status === 'A' || !d.paid)
     .reduce((s, d) => s + Number(d.value || d.amount || 0), 0)
 
+  // funcion clientNameFromDoc
   function clientNameFromDoc(doc) {
     const c = clients.items.find(x => x.document === doc)
     return c ? `${c.name_1} ${c.last_name_1}` : doc
@@ -61,6 +64,7 @@ export default function Clients() {
     finally { setSaving(false) }
   }
 
+  // funcion openEdit
   function openEdit(client) {
     setEditingClient(client)
     setEditForm({

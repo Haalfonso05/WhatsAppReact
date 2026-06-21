@@ -1,3 +1,4 @@
+// Contexto de autenticacion del usuario
 import { createContext, useContext, useState } from 'react'
 import { authStorage } from '../lib/storage'
 
@@ -5,6 +6,7 @@ const BASE = 'https://whatsappbackend-production-b7ef.up.railway.app'
 
 const AuthContext = createContext(null)
 
+// funcion AuthProvider
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => authStorage.getCurrentUser())
 
@@ -42,6 +44,7 @@ export function AuthProvider({ children }) {
     }
   }
 
+  // funcion logout
   function logout() {
     authStorage.clearCurrentUser()
     setUser(null)
@@ -54,4 +57,5 @@ export function AuthProvider({ children }) {
   )
 }
 
+// funcion useAuth
 export const useAuth = () => useContext(AuthContext)

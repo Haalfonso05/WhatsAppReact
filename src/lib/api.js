@@ -1,3 +1,4 @@
+// Llamadas HTTP al backend
 const BASE_URL = 'https://whatsappbackend-production-b7ef.up.railway.app'
 
 async function request(path, options = {}) {

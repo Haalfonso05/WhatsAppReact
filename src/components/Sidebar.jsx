@@ -1,3 +1,4 @@
+// Barra lateral de navegacion
 import { NavLink } from 'react-router-dom'
 import { LayoutDashboard, ShoppingCart, Package, Users, LogOut } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -10,6 +11,7 @@ const links = [
   { to: '/clients', icon: Users, label: 'Clientes' },
 ]
 
+// funcion Sidebar
 export function Sidebar() {
   const { user, logout } = useAuth()
 

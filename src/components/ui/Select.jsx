@@ -1,5 +1,7 @@
+// Selector desplegable reutilizable
 import { cn } from '../../lib/utils'
 
+// funcion Select
 export function Select({ className, label, error, children, ...props }) {
   return (
     <div className="flex flex-col gap-1.5">

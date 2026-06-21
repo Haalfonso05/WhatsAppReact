@@ -1,8 +1,10 @@
+// Hooks personalizados (paginacion y datos)
 import { useState, useEffect, useCallback } from 'react'
 import { api } from './api'
 
 
 
+// funcion usePaged
 function usePaged(fetcher, deps = []) {
   const [items, setItems] = useState([])
   const [page, setPage] = useState(1)
@@ -28,7 +30,9 @@ function usePaged(fetcher, deps = []) {
 
   useEffect(() => { fetch(1) }, [fetch])
 
+  // funcion reload
   const reload = () => fetch(page)
+  // funcion goToPage
   const goToPage = (p) => fetch(p)
 
   return { items, page, totalPages, total, loading, reload, goToPage }
@@ -36,6 +40,7 @@ function usePaged(fetcher, deps = []) {
 
 
 
+// funcion useProducts
 export function useProducts({ search = '' } = {}) {
   const paged = usePaged((p) => api.getProducts({ page: p, search }), [search])
   return paged
@@ -43,6 +48,7 @@ export function useProducts({ search = '' } = {}) {
 
 
 
+// funcion useClients
 export function useClients({ search = '' } = {}) {
   const paged = usePaged((p) => api.getClients({ page: p, search }), [search])
   return paged
@@ -50,6 +56,7 @@ export function useClients({ search = '' } = {}) {
 
 
 
+// funcion useOrders
 export function useOrders({ search = '', status = '' } = {}) {
   const paged = usePaged((p) => api.getOrders({ page: p, search, status }), [search, status])
   return paged
@@ -57,6 +64,7 @@ export function useOrders({ search = '', status = '' } = {}) {
 
 
 
+// funcion useDebts
 export function useDebts() {
   const paged = usePaged((p) => api.getDebts({ page: p }), [])
   return paged
@@ -64,6 +72,7 @@ export function useDebts() {
 
 
 
+// funcion useSearch
 export function useSearch(fetcher) {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)

@@ -1,8 +1,10 @@
+// Pantalla de registro
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Mail, Lock, User, UserPlus } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
+// funcion LightField
 function LightField({ label, type = 'text', placeholder, value, onChange, icon: Icon, suffix }) {
   return (
     <div className="flex flex-col gap-1.5">
@@ -29,6 +31,7 @@ function LightField({ label, type = 'text', placeholder, value, onChange, icon: 
   )
 }
 
+// funcion Register
 export default function Register() {
   const { register } = useAuth()
   const navigate = useNavigate()

@@ -1,3 +1,4 @@
+// Pantalla de pedidos
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { Plus, ShoppingCart, ChevronRight, X, Loader2, Check } from 'lucide-react'
 import { GradientHeading } from '../components/cult/GradientHeading'
@@ -25,6 +26,7 @@ const checkedByOrder = {}
 
 
 
+// funcion OrderStepper
 function OrderStepper({ dbStatus, onAdvance }) {
   const display = DB_TO_DISPLAY[dbStatus] || 'En espera'
   const cur = STATUSES.indexOf(display)
@@ -60,6 +62,7 @@ function OrderStepper({ dbStatus, onAdvance }) {
 
 
 
+// funcion OrderDetailDialog
 function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) {
   const [details, setDetails] = useState([])
   const [loading, setLoading] = useState(true)
@@ -92,12 +95,14 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
     }).catch(() => setLoading(false))
   }, [open, order.id_order, display])
 
+  // funcion toggleCheck
   function toggleCheck(i) {
     const next = { ...checked, [i]: !checked[i] }
     setChecked(next)
     checkedByOrder[order.id_order] = next
   }
 
+  // funcion getStock
   function getStock(productId) {
     const item = inventory.find(p => String(p.id_product) === String(productId))
     return item?.current_stock ?? null
@@ -242,9 +247,11 @@ function OrderDetailDialog({ order, open, onClose, onAdvance, onStatusChange }) 
 
 
 
+// funcion OrderCard
 function OrderCard({ order, onAdvance, onCancel, onClick }) {
   const display = DB_TO_DISPLAY[order.delivery_status] || 'En espera'
 
+  // funcion handleCardClick
   function handleCardClick(e) {
     
     if (e.target.closest('[data-no-dialog]')) return
@@ -282,6 +289,7 @@ function OrderCard({ order, onAdvance, onCancel, onClick }) {
 
 
 
+// funcion NewOrderModal
 function NewOrderModal({ open, onClose, onCreated }) {
   const [selectedClient, setSelectedClient] = useState(null)
   const [lines, setLines] = useState([{ item: null, quantity: 1 }])
@@ -289,7 +297,9 @@ function NewOrderModal({ open, onClose, onCreated }) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
+  // funcion reset
   function reset() { setSelectedClient(null); setLines([{ item: null, quantity: 1 }]); setNotes(''); setError('') }
+  // funcion handleClose
   function handleClose() { reset(); onClose() }
 
   const total = lines.reduce((s, l) => l.item ? s + l.item.reference_price * l.quantity : s, 0)
@@ -412,6 +422,7 @@ function NewOrderModal({ open, onClose, onCreated }) {
 
 
 
+// funcion Orders
 export default function Orders() {
   const [statusFilter, setStatusFilter] = useState('')
   const [modalOpen, setModalOpen] = useState(false)

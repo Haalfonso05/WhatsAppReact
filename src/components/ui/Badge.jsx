@@ -1,3 +1,4 @@
+// Etiqueta de estado reutilizable
 import { cn } from '../../lib/utils'
 
 const variants = {
@@ -8,6 +9,7 @@ const variants = {
   default: 'bg-slate-100 text-slate-700 border border-slate-200',
 }
 
+// funcion Badge
 export function Badge({ children, variant = 'default', className }) {
   return (
     <span

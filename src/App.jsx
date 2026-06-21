@@ -1,3 +1,4 @@
+// Rutas principales y providers de la app
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { AppProvider } from './context/AppContext'
@@ -12,6 +13,7 @@ import Inventory from './pages/Inventory'
 import Orders from './pages/Orders'
 import Clients from './pages/Clients'
 
+// funcion App
 export default function App() {
   return (
     <BrowserRouter>

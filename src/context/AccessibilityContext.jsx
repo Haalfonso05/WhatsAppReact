@@ -1,3 +1,4 @@
+// Contexto de accesibilidad (contraste y tamano de texto)
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const AccessibilityContext = createContext(null)
@@ -8,6 +9,7 @@ const MIN = 1
 const MAX = 1.5
 const STEP = 0.1
 
+// funcion AccessibilityProvider
 export function AccessibilityProvider({ children }) {
   const [contrast, setContrast] = useState(() => localStorage.getItem(CONTRAST_KEY) === '1')
   const [fontScale, setFontScale] = useState(() => {
@@ -25,8 +27,11 @@ export function AccessibilityProvider({ children }) {
     localStorage.setItem(FONT_KEY, String(fontScale))
   }, [fontScale])
 
+  // funcion incFont
   const incFont = () => setFontScale((s) => Math.min(MAX, Math.round((s + STEP) * 10) / 10))
+  // funcion decFont
   const decFont = () => setFontScale((s) => Math.max(MIN, Math.round((s - STEP) * 10) / 10))
+  // funcion reset
   const reset = () => {
     setContrast(false)
     setFontScale(1)
@@ -41,6 +46,7 @@ export function AccessibilityProvider({ children }) {
   )
 }
 
+// funcion useAccessibility
 export function useAccessibility() {
   return useContext(AccessibilityContext)
 }

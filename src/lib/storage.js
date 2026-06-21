@@ -1,3 +1,4 @@
+// Persistencia local con localStorage
 const KEYS = {
   USERS: 'mgmt_users',
   CURRENT_USER: 'mgmt_current_user',
@@ -8,6 +9,7 @@ const KEYS = {
   SALES: 'mgmt_sales',
 }
 
+// funcion get
 function get(key, fallback = null) {
   try {
     const raw = localStorage.getItem(key)
@@ -17,6 +19,7 @@ function get(key, fallback = null) {
   }
 }
 
+// funcion set
 function set(key, value) {
   localStorage.setItem(key, JSON.stringify(value))
 }

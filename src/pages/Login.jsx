@@ -1,8 +1,10 @@
+// Pantalla de inicio de sesion
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Mail, Lock, MessageCircle } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
+// funcion LightField
 function LightField({ label, type = 'text', placeholder, value, onChange, icon: Icon, suffix }) {
   return (
     <div className="flex flex-col gap-1.5">
@@ -29,6 +31,7 @@ function LightField({ label, type = 'text', placeholder, value, onChange, icon: 
   )
 }
 
+// funcion Login
 export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()

@@ -1,3 +1,4 @@
+// Boton reutilizable
 import { cn } from '../../lib/utils'
 
 const variants = {
@@ -14,6 +15,7 @@ const sizes = {
   lg: 'px-5 py-2.5 text-base',
 }
 
+// funcion Button
 export function Button({ children, variant = 'primary', size = 'md', className, disabled, ...props }) {
   return (
     <button

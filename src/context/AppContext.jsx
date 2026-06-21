@@ -1,3 +1,4 @@
+// Estado global de la aplicacion
 import { createContext, useContext, useState, useEffect } from 'react'
 import {
   inventoryStorage,
@@ -9,6 +10,7 @@ import {
 
 const AppContext = createContext(null)
 
+// funcion AppProvider
 export function AppProvider({ children }) {
   const [inventory, setInventory] = useState([])
   const [orders, setOrders] = useState([])
@@ -29,10 +31,12 @@ export function AppProvider({ children }) {
     const created = inventoryStorage.add(item)
     setInventory((prev) => [...prev, created])
   }
+  // funcion updateInventoryItem
   function updateInventoryItem(id, changes) {
     inventoryStorage.update(id, changes)
     setInventory((prev) => prev.map((i) => (i.id === id ? { ...i, ...changes } : i)))
   }
+  // funcion removeInventoryItem
   function removeInventoryItem(id) {
     inventoryStorage.remove(id)
     setInventory((prev) => prev.filter((i) => i.id !== id))
@@ -43,10 +47,12 @@ export function AppProvider({ children }) {
     const created = ordersStorage.add(order)
     setOrders((prev) => [...prev, created])
   }
+  // funcion updateOrderStatus
   function updateOrderStatus(id, status) {
     ordersStorage.updateStatus(id, status)
     setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)))
   }
+  // funcion removeOrder
   function removeOrder(id) {
     ordersStorage.remove(id)
     setOrders((prev) => prev.filter((o) => o.id !== id))
@@ -58,6 +64,7 @@ export function AppProvider({ children }) {
     setClients((prev) => [...prev, created])
     return created
   }
+  // funcion removeClient
   function removeClient(id) {
     clientsStorage.remove(id)
     setClients((prev) => prev.filter((c) => c.id !== id))
@@ -68,10 +75,12 @@ export function AppProvider({ children }) {
     const created = debtsStorage.add(debt)
     setDebts((prev) => [...prev, created])
   }
+  // funcion toggleDebtPaid
   function toggleDebtPaid(id) {
     debtsStorage.togglePaid(id)
     setDebts((prev) => prev.map((d) => (d.id === id ? { ...d, paid: !d.paid } : d)))
   }
+  // funcion removeDebt
   function removeDebt(id) {
     debtsStorage.remove(id)
     setDebts((prev) => prev.filter((d) => d.id !== id))
@@ -110,4 +119,5 @@ export function AppProvider({ children }) {
   )
 }
 
+// funcion useApp
 export const useApp = () => useContext(AppContext)

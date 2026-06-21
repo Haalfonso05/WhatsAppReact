@@ -1,3 +1,4 @@
+// Boton flotante y panel de accesibilidad
 import { useState } from 'react'
 import { useAccessibility } from '../context/AccessibilityContext'
 
@@ -6,6 +7,7 @@ const INK = '#0F172A'
 const BORDER = '#E2E8F0'
 const MUTED = '#64748B'
 
+// funcion AccessibilityButton
 export function AccessibilityButton() {
   const [open, setOpen] = useState(false)
   const { contrast, setContrast, fontScale, incFont, decFont, reset, MIN, MAX } = useAccessibility()
@@ -119,6 +121,7 @@ export function AccessibilityButton() {
   )
 }
 
+// funcion StepBtn
 function StepBtn({ label, disabled, onClick }) {
   return (
     <button

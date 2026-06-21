@@ -1,3 +1,4 @@
+// Pantalla de metricas (dashboard)
 import { useEffect, useState } from 'react'
 import { TrendingUp, DollarSign, AlertTriangle, Package } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -8,6 +9,7 @@ import { Badge } from '../components/ui/Badge'
 import { formatCurrency } from '../lib/utils'
 import { api } from '../lib/api'
 
+// funcion MetricCard
 function MetricCard({ label, value, icon: Icon, color, formatFn }) {
   return (
     <TextureCard>
@@ -26,6 +28,7 @@ function MetricCard({ label, value, icon: Icon, color, formatFn }) {
   )
 }
 
+// funcion Dashboard
 export default function Dashboard() {
   const { user } = useAuth()
   const [inventory, setInventory] = useState([])

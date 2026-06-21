@@ -1,5 +1,6 @@
 import { cn } from '../../lib/utils'
 
+// funcion GradientHeading
 export function GradientHeading({ children, className, as: Tag = 'h1', variant = 'default' }) {
   const gradients = {
     default: 'from-slate-900 to-slate-600 dark:from-white dark:to-slate-400',
